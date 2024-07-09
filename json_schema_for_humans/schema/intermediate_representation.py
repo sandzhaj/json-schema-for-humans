@@ -359,6 +359,18 @@ def _load_schema_from_uri(schema_uri: str, loaded_schemas: Dict[str, Any]) -> Op
     loaded_schemas[schema_uri] = loaded_schema
     return loaded_schema
 
+def _filter_schema(schema: Dict[str, Any]) -> Dict[str, Any]:
+    def filter_recursive(obj: Any) -> Any:
+            if isinstance(obj, dict):
+                return {key: filter_recursive(value) for key, value in obj.items()
+                        if not (isinstance(value, dict) and value.get('skipInDocs', False))}
+            elif isinstance(obj, list):
+                return [filter_recursive(item) for item in obj]
+            else:
+                return obj
+
+    return filter_recursive(schema)
+
 
 def _load_schema(
     schema_uri: str, path_to_element: List[str], loaded_schemas: Dict[str, Any]
@@ -369,7 +381,8 @@ def _load_schema(
 
     Loaded paths are kept in memory as to ensure never loading the same file twice
     """
-    loaded_schema = _load_schema_from_uri(schema_uri, loaded_schemas)
+    loaded_schema = _filter_schema(_load_schema_from_uri(schema_uri, loaded_schemas))
+    print(loaded_schema)
 
     if path_to_element:
         path_to_element_str = "/".join(path_to_element)
