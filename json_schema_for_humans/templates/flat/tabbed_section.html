@@ -1,6 +1,6 @@
 <a id="{{ current_node.html_id }}" href="#{{ current_node.html_id }}">
     <h2 class="handle ml-2 mt-2">
-      <label>{% if operator == "allOf" -%}All of{% elif operator == "anyOf" -%}Any of{% elif operator == "oneOf" -%}One of{% endif -%}</label>
+      <label>{% if operator == "allOf" -%}Включает в себя{% elif operator == "anyOf" -%}Any of{% elif operator == "oneOf" -%}One of{% endif -%}</label>
     </h2>
 </a>
 {%- set tab_label = "Option" -%}

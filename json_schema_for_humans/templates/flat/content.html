@@ -58,7 +58,7 @@
         {# Enum and const #}
         {%- if schema.kw_enum -%}
             <div class="enum-value" id="{{ schema.kw_enum.html_id }}">
-                <h4>Must be one of:</h4>
+                <h4>Может быть одним из:</h4>
                 <ul class="list-group">
                     {%- for enum_choice in schema.kw_enum.array_items -%}
                         <li class="list-group-item enum-item">

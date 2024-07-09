@@ -8,21 +8,17 @@
   {% set description = sub_property | get_description %}
 <details>
 <summary>
-  {% filter md_heading(depth + 1, html_id, True) -%}
-    {%- filter replace('\n', '') -%}
-      {%- if not skip_required and sub_property.property_name -%}
-        {{ "[Required] " if sub_property.is_required_property else "[Optional] " -}}
-      {%- endif -%}
-      {%- if sub_property is deprecated -%}~~ {%- endif -%}
-      {%- if sub_property.is_pattern_property %}Pattern {% endif %}Property {% with schema=sub_property %}{%- include "breadcrumbs.md" %}{% endwith %}
-      {%- if sub_property is deprecated -%}~~{%- endif -%}
+    {% filter md_heading(depth + 1, html_id, True) -%}
+      {%- filter replace('\n', '') -%}
+    {%- if sub_property is deprecated  -%}~~{%- endif -%}
+    {%- if sub_property.is_pattern_property %}Паттерн{% endif %} {% with schema=sub_property %}{%- include "breadcrumbs.md" %}{% endwith %}
+    {%- if sub_property is deprecated -%}~~{%- endif -%}
     {%- endfilter %}
   {%- endfilter %}
   
   {% if sub_property.is_pattern_property %}
-> All properties whose name matches the regular expression
-```{{ sub_property.property_name }}``` ([Test](https://regex101.com/?regex={{ sub_property.property_name | urlencode }}))
-must respect the following conditions
+> Вложенные объекты могут иметь любое имя, которое соответствует
+```{{ sub_property.property_name }}```
   {% endif %}
 
 </summary>

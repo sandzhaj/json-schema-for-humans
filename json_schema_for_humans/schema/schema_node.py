@@ -468,7 +468,7 @@ class SchemaNode:
         if self.is_pattern_property:
             return self.title or self.property_name
         if self.is_additional_properties:
-            return "Additional Properties"
+            return "Дополнительные свойства"
         return self.breadcrumb_name
 
     @property
