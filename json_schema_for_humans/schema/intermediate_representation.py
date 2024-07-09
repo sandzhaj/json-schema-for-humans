@@ -382,7 +382,7 @@ def _load_schema(
     Loaded paths are kept in memory as to ensure never loading the same file twice
     """
     loaded_schema = _filter_schema(_load_schema_from_uri(schema_uri, loaded_schemas))
-    print(loaded_schema)
+
 
     if path_to_element:
         path_to_element_str = "/".join(path_to_element)
