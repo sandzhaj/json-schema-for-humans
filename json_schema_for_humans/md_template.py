@@ -160,7 +160,7 @@ def array_items_restrictions(schema: SchemaNode) -> List[List[str]]:
     items_restriction_rules = (
         [schema.array_items_def] if schema.array_items_def else []
     ) + schema.tuple_validation_items
-    items_restrictions = [["Each item of this array must be", "Description"]]
+    items_restrictions = [["Спецификация вложенного объекта", "Описание"]]
     for i, item in enumerate(items_restriction_rules):
         item_label = item.name_for_breadcrumbs or f"Array Item {i}"
         item_html_id = item.html_id
@@ -390,26 +390,26 @@ class MarkdownTemplate(object):
 
         type_info.append(["", ""])
         type_info.append(
-            ["**Type**", "`combining`" if jinja_filters.is_combining(merged_schema) else f"`{schema_type}`"]
+            ["**Тип**", "`combining`" if jinja_filters.is_combining(merged_schema) else f"`{schema_type}`"]
         )
         if not self.config.template_md_options.get("badge_as_image"):
-            type_info.append(["**Required**", "Yes" if schema.is_required_property else "No"])
+            type_info.append(["**Обязателен**", "Yes" if schema.is_required_property else "No"])
         if jinja_filters.deprecated(self.config, merged_schema):
-            type_info.append(["**Deprecated**", self.badge("Deprecated", "red")])
+            type_info.append(["**Устарел**", self.badge("Deprecated", "red")])
 
         if schema_format:
-            type_info.append(["**Format**", f"`{schema_format}`"])
+            type_info.append(["**Формат**", f"`{schema_format}`"])
         if schema_type == const.TYPE_OBJECT:
-            type_info.append(["**Additional properties**", self.additional_properties(merged_schema)])
+            type_info.append(["**Дополнительные свойства**", self.additional_properties(merged_schema)])
         if default_value:
-            type_info.append(["**Default**", f"`{default_value}`"])
+            type_info.append(["**По-умолчанию**", f"`{default_value}`"])
         if schema.should_be_a_link(self.config):
             assert schema.links_to
             schema_link_name = schema.links_to.link_name
             html_id = schema.links_to.html_id
             type_info.append(["**Same definition as**", f"[{ schema_link_name }](#{ html_id })"])
         elif schema.refers_to:
-            type_info.append(["**Defined in**", schema.ref_path])
+            type_info.append(["**Объявлен в**", schema.ref_path])
 
         return type_info
 

@@ -1,3 +1,4 @@
+{%- if not schema.skipInDocs %}
 {#
     content is a template and not a macro in md
         because macro parameters are not through context
@@ -15,7 +16,7 @@
 {%- if not skip_headers %}
 
 {% if schema.title and schema.title | length > 0 %}
-**Title:** {{ schema.title }}
+**Заголовок:** {{ schema.title }}
 {% endif %}
 
 {{ schema | md_type_info_table | md_generate_table }}
@@ -92,3 +93,4 @@
     {% include "section_properties_details.md" %}
     {% endif %}
 {% endif %}
+{%- endif %}

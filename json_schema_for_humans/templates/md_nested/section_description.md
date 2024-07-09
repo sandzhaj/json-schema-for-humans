@@ -1,4 +1,4 @@
 {# Display description #}
 {% if description %}
-**Description:**{{ " " }}{{ description }}
+**Описание:**{{ " " }}{{ description }}
 {% endif %}

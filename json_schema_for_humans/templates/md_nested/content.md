@@ -15,7 +15,7 @@
 {%- if not skip_headers %}
 
 {% if schema.title and schema.title | length > 0 %}
-**Title:** {{ schema.title }}
+**Заголовок:** {{ schema.title }}
 {% endif %}
 
 {{ schema | md_type_info_table | md_generate_table }}
