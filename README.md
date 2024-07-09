@@ -1,5 +1,19 @@
 [![PyPI version](https://badge.fury.io/py/json-schema-for-humans.svg)](https://badge.fury.io/py/json-schema-for-humans)
 
+# Изменения в форке
+- Частичная русификация
+- Добавлена возможность исключать свойства из документации используя `skipInDocs: True` в объектах  
+  Пример:
+  ```yaml
+  ...
+  properties:
+    version:
+      title: Вводимый номер версии
+      type: string
+      description: "[Заполняется автоматически, не указывать в конфигурационном файле]"
+      skipInDocs: true
+  ```
+
 # JSON Schema for Humans
 
 Quickly generate a beautiful static HTML or Markdown page documenting a JSON schema
