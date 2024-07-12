@@ -75,7 +75,7 @@ def build_intermediate_representation(
     # Make sure schema_path is absolute, all symlinks are resolved
     absolute_schema_path = _get_schema_path(schema_path)
 
-    loaded_schema = _load_schema(absolute_schema_path, [], loaded_schemas)
+    loaded_schema = _load_schema(absolute_schema_path, [], loaded_schemas, config)
     if not loaded_schema:
         raise Exception("Cannot generate documentation since root schema could not be loaded")
 
@@ -312,7 +312,7 @@ def _resolve_ref(
         property_name=current_node.property_name,
         schema_file_path=referenced_schema_path,
         path_to_element=referenced_schema_path_to_element,
-        schema=_load_schema(referenced_schema_path, referenced_schema_path_to_element, loaded_schemas),
+        schema=_load_schema(referenced_schema_path, referenced_schema_path_to_element, loaded_schemas, config),
         parent=current_node.parent,
         parent_key=current_node.parent_key,
     )
@@ -359,7 +359,8 @@ def _load_schema_from_uri(schema_uri: str, loaded_schemas: Dict[str, Any]) -> Op
     loaded_schemas[schema_uri] = loaded_schema
     return loaded_schema
 
-def _filter_schema(schema: Dict[str, Any]) -> Dict[str, Any]:
+
+def _filter_schema(schema: Dict[str, Any], config: GenerationConfiguration) -> Dict[str, Any]:
     def filter_recursive(obj: Any) -> Any:
             if isinstance(obj, dict):
                 return {key: filter_recursive(value) for key, value in obj.items()
@@ -368,12 +369,13 @@ def _filter_schema(schema: Dict[str, Any]) -> Dict[str, Any]:
                 return [filter_recursive(item) for item in obj]
             else:
                 return obj
-
-    return filter_recursive(schema)
+    if config.use_skip_in_docs:
+        return filter_recursive(schema)
+    return schema
 
 
 def _load_schema(
-    schema_uri: str, path_to_element: List[str], loaded_schemas: Dict[str, Any]
+    schema_uri: str, path_to_element: List[str], loaded_schemas: Dict[str, Any], config: GenerationConfiguration
 ) -> Optional[Union[Dict, List, int, str]]:
     """Load the schema at the provided path or URL.
 
@@ -381,7 +383,7 @@ def _load_schema(
 
     Loaded paths are kept in memory as to ensure never loading the same file twice
     """
-    loaded_schema = _filter_schema(_load_schema_from_uri(schema_uri, loaded_schemas))
+    loaded_schema = _filter_schema(_load_schema_from_uri(schema_uri, loaded_schemas), config)
 
 
     if path_to_element:

@@ -35,6 +35,7 @@ class GenerationConfiguration:
     """Configuration for generating documentation for a schema"""
 
     minify: bool = True
+    use_skip_in_docs: bool = True
     description_is_markdown: bool = True
     deprecated_from_description: bool = False
     show_breadcrumbs: bool = True
